@@ -1,0 +1,39 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres:12
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: secret
+    networks:
+      - pg_pgadmin_network
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: dev@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: secret
+    networks:
+      - pg_pgadmin_network
+    volumes:
+      - pgadmin:/root/.pgadmin
+    ports:
+      - "8080:80"
+
+networks:
+  pg_pgadmin_network:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
+
+
+
